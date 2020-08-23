@@ -101,11 +101,14 @@ void encoder_update_user(uint8_t index, bool clockwise) {
             }
         } else {
             //layer state is _NUMPAD
+            report_mouse_t currentReport = pointing_device_get_report();
             if (clockwise) {
-                tap_code16(KC_MS_D);
+                currentReport.y = -100;
             } else {
-                tap_code16(KC_MS_U);
+                currentReport.y = 100;
             }
+            pointing_device_set_report(currentReport);
+            pointing_device_send();
         }
     } else if (index == 1) {
         if (layer_state_is(_QWERTY)){
